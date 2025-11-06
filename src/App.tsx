@@ -54,14 +54,14 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/period"
               element={
                 <ProtectedRoute>
                   <PeriodTracker />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
               path="/study"
               element={
