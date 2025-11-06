@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Check for existing auth on mount
     const storedToken = localStorage.getItem('auth_token');
     const storedUser = localStorage.getItem('user');
-    
+
     if (storedToken && storedUser) {
       try {
         setToken(storedToken);
@@ -48,26 +48,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem('user');
       }
     }
-    
+
     setLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await authAPI.login(email, password);
-    
-    localStorage.setItem('auth_token', response.token);
-    localStorage.setItem('user', JSON.stringify(response.user));
-    
-    setToken(response.token);
-    setUser(response.user);
+    const user = await authAPI.login(email, password);
+    localStorage.setItem('user', JSON.stringify(user));
+    setUser(user);
   };
+
 
   const register = async (data: RegisterData) => {
     const response = await authAPI.register(data);
-    
+
     localStorage.setItem('auth_token', response.token);
     localStorage.setItem('user', JSON.stringify(response.user));
-    
+
     setToken(response.token);
     setUser(response.user);
   };

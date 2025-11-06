@@ -8,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Button } from '../components/ui/button';
 import { getDaysUntil } from '../utils/calculations';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface Exam {
   id: number;

@@ -5,7 +5,7 @@
 // // Go through a public proxy to add CORS headers automatically
 // const API_BASE_URL = 'https://corsproxy.io/?' + encodeURIComponent(SCRIPT_URL);
 
-const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxr4TIUZUVXn-SY8QJZivrrTmDoqrqR_ghOOTVgCnK9gqE8X_aCFEFowQIWR1DNgL-z/exec";
+const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxd1FXLKFTmmGmHFJt0IoVxAi8IOe4PuS3vUppTm0rbLr4KpKULvsgN-gKb1pLF060N/exec";
 
 // Shared request helper
 async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: any) {
@@ -43,15 +43,28 @@ async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: an
 export const authAPI = {
   async login(email: string, password: string) {
     const students = await request('getStudents');
-    const user = students.find((s: any) => s.Email === email);
-    if (!user) throw new Error('User not found');
+    const user = students.find(
+      (s: any) => s.Email === email && s.Password === password
+    );
+    if (!user) throw new Error('Invalid email or password');
+
     localStorage.setItem('user', JSON.stringify(user));
     return user;
   },
+
+
+  async register(data: any) {
+    // You’ll need a Google Apps Script handler for `addStudent`
+    const response = await request('addStudent', 'POST', data);
+    localStorage.setItem('user', JSON.stringify(response));
+    return response;
+  },
+
   logout() {
     localStorage.removeItem('user');
   },
 };
+
 
 /* -------------------- PROFILE API -------------------- */
 export const profileAPI = {

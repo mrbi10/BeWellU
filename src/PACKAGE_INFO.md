@@ -98,7 +98,7 @@ If you need to add packages manually:
 npm install react react-dom react-router-dom
 
 # UI Libraries
-npm install motion lucide-react sonner@2.0.3
+npm install motion lucide-react sonner
 
 # TypeScript Support
 npm install -D @types/react @types/react-dom typescript

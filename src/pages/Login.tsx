@@ -7,7 +7,7 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { motion } from 'motion/react';
 import { LogIn, Droplets } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function Login() {
     try {
       await login(email, password);
       toast.success('Welcome back!');
-      navigate('/');
+      navigate('/water');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Login failed');
     } finally {

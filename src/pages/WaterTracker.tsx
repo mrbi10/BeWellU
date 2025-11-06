@@ -6,7 +6,7 @@ import { profileAPI, waterAPI } from '../utils/api';
 import { calculateWaterTarget } from '../utils/calculations';
 import { ProgressRing } from '../components/ProgressRing';
 import { Button } from '../components/ui/button';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 const GLASS_SIZE_ML = 250;
 
@@ -15,7 +15,11 @@ export function WaterTracker() {
   const [loading, setLoading] = useState(true);
   const [glasses, setGlasses] = useState(0);
   const [targetMl, setTargetMl] = useState(2000);
-  
+  const [waterLogs, setWaterLogs] = useState([]);
+
+ 
+
+
   const today = new Date().toISOString().split('T')[0];
   const currentMl = glasses * GLASS_SIZE_ML;
   const progress = Math.min((currentMl / targetMl) * 100, 100);
@@ -52,6 +56,7 @@ export function WaterTracker() {
         target_ml: targetMl,
       });
       setGlasses(newGlasses);
+
     } catch (error) {
       console.error('Failed to update water log:', error);
       toast.error('Failed to update water intake');
@@ -122,12 +127,12 @@ export function WaterTracker() {
             >
               <Minus size={20} />
             </Button>
-            
+
             <div className="text-center min-w-[100px]">
               <div className="text-4xl text-foreground mb-1">{glasses}</div>
               <div className="text-sm text-muted-foreground">glasses</div>
             </div>
-            
+
             <Button
               onClick={addGlass}
               disabled={glasses >= 20}
@@ -151,7 +156,7 @@ export function WaterTracker() {
         >
           <h3 className="text-blue-700 dark:text-blue-300 mb-2">💧 Stay Hydrated!</h3>
           <p className="text-blue-600 dark:text-blue-400 text-sm">
-            Drinking enough water helps improve focus, energy levels, and overall health. 
+            Drinking enough water helps improve focus, energy levels, and overall health.
             Try to drink consistently throughout the day.
           </p>
         </motion.div>
