@@ -14,19 +14,25 @@ export default function Login() {
 
     const validUsers = {
       mrbi: { name: 'Mrbi', password: 'mrbi@123' },
-      nilaaa: { name: 'Nilaaa', password: 'nilaaa@123' },
+      nilaaaa: { name: 'Nilaaaa', password: 'nilaaaa@123' },
     };
 
     const username = name.toLowerCase().trim();
     const user = validUsers[username];
 
     if (user && password === user.password) {
-      localStorage.setItem('currentUser', user.name);
+      const userData = {
+        name: user.name,
+        email: `${user.name.toLowerCase()}@local.app`,
+      };
+      localStorage.setItem('user', JSON.stringify(userData));
       toast.success(`Welcome ${user.name} 💖`);
-      navigate('/profile');
+      navigate('/home');
+      window.location.reload();
     } else {
       toast.error('Invalid name or password 😢');
     }
+
   };
 
   return (

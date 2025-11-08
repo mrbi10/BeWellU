@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  'https://script.google.com/macros/s/AKfycbzNpkYLoLmefikGbDAXplJQAIfRd-nexf3ZU_PGrItyh_XYrRLldrqiyW2v5jwhU-6c/exec';
+  'https://script.google.com/macros/s/AKfycbzd6rOuJJYFwZLF6duedev1nW4Dp1TK4nnDLkMoRlrj0OEhvsTSFhVWn0NVMcDz39R2/exec';
 
 async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: any) {
   let url = API_BASE_URL;
@@ -55,11 +55,24 @@ export const authAPI = {
 
 export const profileAPI = {
   async get() {
-    const currentUser = localStorage.getItem('currentUser');
-    if (!currentUser) throw new Error('Not logged in');
-    const name = JSON.parse(JSON.stringify(currentUser));
-    const response = await request('getProfile', 'GET', { name });
-    return response.profile || null;
+    const userStr = localStorage.getItem('user');
+    if (!userStr) throw new Error('Not logged in');
+
+    const user = JSON.parse(userStr);
+    const response = await request('getProfile', 'GET', { name: user.name });
+
+    if (!response || !response.profile) {
+      return {
+        Name: user.name,
+        Gender: user.name.toLowerCase() === 'nilaaa' ? 'female' : 'male',
+        PartnerName: user.name.toLowerCase() === 'mrbi' ? 'Nilaaa' : 'Mrbi',
+        Height_cm: 0,
+        Weight_kg: 0,
+        DOB: '',
+      };
+    }
+
+    return response.profile;
   },
 
   async update(data: {
@@ -70,10 +83,19 @@ export const profileAPI = {
     height_cm: number;
     weight_kg: number;
   }) {
-    const response = await request('addProfile', 'POST', data);
+    const userStr = localStorage.getItem('user');
+    if (!userStr) throw new Error('Not logged in');
+
+    const user = JSON.parse(userStr);
+    const response = await request('addProfile', 'POST', {
+      ...data,
+      name: user.name, 
+    });
+
     return response;
   },
 };
+
 
 export const waterAPI = {
   async log(data: { date: string; glasses: number; target_ml?: number; notes?: string; registrationNo?: string }) {

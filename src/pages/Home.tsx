@@ -21,9 +21,15 @@ export function Home() {
   const [exams, setExams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-'); // DD-MM-YYYY
+  const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      navigate('/login');
+      return;
+    }
+
     (async () => {
       try {
         const [p, w, e] = await Promise.all([
@@ -31,6 +37,7 @@ export function Home() {
           waterAPI.getToday(today),
           examsAPI.list(),
         ]);
+
 
         setProfile(p);
 
@@ -55,8 +62,6 @@ export function Home() {
           : [];
         setExams(normalizedExams);
 
-
-        // Only try to load period data if female
         const gender = (p?.gender ?? p?.Gender ?? '').toLowerCase();
         if (gender === 'female') {
           try {
@@ -138,7 +143,7 @@ export function Home() {
 
   // ----- UI -----
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-blue-100 pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-blue-100 pb-24 relative overflow-y-auto">
       {/* Floating hearts */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(12)].map((_, i) => (
@@ -175,8 +180,8 @@ export function Home() {
             <h1 className="text-2xl font-semibold text-rose-600">
               {currentUser === 'Mrbi'
                 ? 'Hi Mrbi 😎💙'
-                : currentUser === 'Nilaaa'
-                  ? 'Hi Nilaaa 💖✨'
+                : currentUser === 'Nilaaaa'
+                  ? 'Hi Nilaaaa 💖✨'
                   : 'Hi Sweethearts 💞'}
             </h1>
             <p className="text-rose-500 text-sm">
@@ -198,6 +203,8 @@ export function Home() {
         {/* Quote */}
         <QuoteWidget text={`"${dailyQuote.text}"`} author={dailyQuote.author} />
 
+        <br />
+
         {/* Water */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -212,7 +219,7 @@ export function Home() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="bg-gradient-to-br from-pink-400 to-blue-400 p-2.5 rounded-xl">
-                  <Droplet className="text-white" size={20} />
+                  <Droplet className="text-blue-500" size={20} />
                 </div>
                 <div>
                   <h3 className="text-rose-600">Water Intake 💧</h3>

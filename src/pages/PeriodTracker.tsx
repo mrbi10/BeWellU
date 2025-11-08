@@ -28,7 +28,7 @@ export function PeriodTracker() {
         periodAPI.get(),
       ]);
 
-      setProfileGender(profile?.gender || null);
+      setProfileGender(profile?.Gender || null);
 
       if (periodData) {
         setLastPeriodDate(periodData.Last_Period_Date || '');
@@ -73,37 +73,7 @@ export function PeriodTracker() {
     );
   }
 
-  if (!profileGender || profileGender !== 'female') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-red-100 pb-24 px-4">
-        <div className="max-w-2xl mx-auto pt-6 text-center">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 hover:bg-pink-200/60 rounded-lg transition-colors mb-4"
-          >
-            <ArrowLeft size={24} className="text-rose-500" />
-          </button>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-pink-200"
-          >
-            <Heart className="mx-auto mb-4 text-rose-400" size={48} />
-            <h2 className="text-xl text-rose-600 mb-2 font-semibold">
-              Period Tracker 💖
-            </h2>
-            <p className="text-rose-400 text-sm mb-4">
-              This feature is only for female profiles.
-              Update your profile if you want to access this section 🌸
-            </p>
-            <Button onClick={() => navigate('/profile')} className="bg-gradient-to-r from-pink-400 to-rose-400 text-red-500 hover:scale-105">
-              Go to Profile
-            </Button>
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
+
 
   const phaseInfo = lastPeriodDate ? getPeriodPhase(lastPeriodDate, cycleLength) : null;
 
@@ -113,39 +83,40 @@ export function PeriodTracker() {
     switch (phaseInfo.phase) {
       case 'period':
         return {
-          color: 'from-red-400 to-pink-400',
+          color: 'from-rose-400 via-pink-500 to-rose-600',
           emoji: '🩸',
           title: 'Period Time 💕',
           message: 'Rest well and stay hydrated sweetu 💦 Take it easy 💖',
         };
       case 'ovulation':
         return {
-          color: 'from-green-400 to-teal-400',
+          color: 'from-green-400 via-emerald-500 to-teal-500',
           emoji: '🌸',
           title: 'Ovulation Phase 🌼',
           message: 'You’ll feel more energetic — perfect time for light walks 🌞',
         };
       case 'upcoming':
         return {
-          color: 'from-orange-400 to-red-400',
+          color: 'from-orange-400 via-red-400 to-rose-500',
           emoji: '⚠️',
           title: 'Period Coming Soon',
           message: `Your period might start in ${phaseInfo.daysUntilNext} days — get ready 💕`,
         };
       default:
         return {
-          color: 'from-blue-400 to-purple-400',
+          color: 'from-indigo-400 via-blue-500 to-purple-500',
           emoji: '✨',
           title: 'Normal Days 🌙',
           message: 'Relax, eat well, and keep smiling 😚',
         };
     }
+
   };
 
   const phase = getPhaseInfo();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-red-100 px-4 pb-24 relative overflow-hidden">
+    <div className="h-screen overflow-y-auto bg-gradient-to-br from-pink-100 via-rose-50 to-red-100 px-4 pb-24 relative">
       {/* Floating hearts background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(12)].map((_, i) => (
@@ -182,7 +153,7 @@ export function PeriodTracker() {
           </button>
           <div className="flex items-center gap-3">
             <div className="bg-gradient-to-br from-pink-400 to-rose-400 p-3 rounded-2xl shadow-md">
-              <Calendar className="text-white" size={24} />
+              <Calendar className="text-blue-500" size={24} />
             </div>
             <h1 className="text-xl font-semibold text-rose-600">
               Period Tracker 💗
@@ -229,7 +200,7 @@ export function PeriodTracker() {
             </div>
             <Button
               onClick={handleSave}
-              className="w-full gap-2 bg-gradient-to-r from-pink-400 to-red-400 text-white hover:scale-105 transition-transform"
+              className="w-full gap-2 bg-gradient-to-r from-pink-400 to-red-400 text-blue-500 hover:scale-105 transition-transform"
               disabled={saving}
             >
               <Save size={18} />
@@ -244,26 +215,29 @@ export function PeriodTracker() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className={`bg-gradient-to-br ${phase.color} text-white rounded-2xl p-6 shadow-lg mb-6`}
+            className={`relative bg-gradient-to-br ${phase.color} text-white rounded-2xl p-6 shadow-lg mb-6 overflow-hidden`}
           >
-            <div className="text-4xl mb-3">{phase.emoji}</div>
-            <h2 className="mb-1 font-semibold">{phase.title}</h2>
-            <p className="opacity-90 mb-4">{phase.message}</p>
+            <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]" />
+            <div className="relative z-10">
+              <div className="text-4xl mb-3">{phase.emoji}</div>
+              <h2 className="mb-1 font-semibold">{phase.title}</h2>
+              <p className="opacity-90 mb-4">{phase.message}</p>
 
-            <div className="bg-white/20 rounded-lg p-3 backdrop-blur-sm">
-              <div className="flex justify-between items-center">
-                <span>Next Period</span>
-                <span>{formatDate(phaseInfo.nextPeriodDate)}</span>
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <span>Days Until</span>
-                <span>
-                  {phaseInfo.daysUntilNext < 0
-                    ? 'Overdue 💧'
-                    : phaseInfo.daysUntilNext === 0
-                      ? 'Today 💕'
-                      : `${phaseInfo.daysUntilNext} days`}
-                </span>
+              <div className="bg-white/20 rounded-lg p-3 backdrop-blur-sm">
+                <div className="flex justify-between items-center">
+                  <span>Next Period</span>
+                  <span>{formatDate(phaseInfo.nextPeriodDate)}</span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span>Days Until</span>
+                  <span>
+                    {phaseInfo.daysUntilNext < 0
+                      ? 'Overdue 💧'
+                      : phaseInfo.daysUntilNext === 0
+                        ? 'Today 💕'
+                        : `${phaseInfo.daysUntilNext} days`}
+                  </span>
+                </div>
               </div>
             </div>
           </motion.div>
