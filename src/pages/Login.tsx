@@ -1,96 +1,97 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { LogIn, Droplets } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      await login(email, password);
-      toast.success('Welcome back!');
+    const validUsers = {
+      mrbi: { name: 'Mrbi', password: 'mrbi@123' },
+      nilaaa: { name: 'Nilaaa', password: 'nilaaa@123' },
+    };
+
+    const username = name.toLowerCase().trim();
+    const user = validUsers[username];
+
+    if (user && password === user.password) {
+      localStorage.setItem('currentUser', user.name);
+      toast.success(`Welcome ${user.name} 💖`);
       navigate('/profile');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Login failed');
-    } finally {
-      setLoading(false);
+    } else {
+      toast.error('Invalid name or password 😢');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-rose-50 to-blue-100 relative overflow-hidden">
+      {/* floating hearts */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(12)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-pink-300 opacity-30"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            animate={{
+              y: [null, -60],
+              opacity: [0.3, 0.8, 0],
+            }}
+            transition={{
+              duration: 10 + Math.random() * 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          >
+            💞
+          </motion.div>
+        ))}
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-xl w-full max-w-sm relative z-10 text-center border border-pink-200"
       >
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <Droplets className="w-10 h-10 text-blue-500" />
-          <h1 className="text-3xl">Wellness Companion</h1>
+        <div className="flex justify-center mb-4">
+          <Heart className="text-rose-500" size={40} />
         </div>
+        <h1 className="text-2xl font-semibold text-rose-600 mb-1">Welcome 💖</h1>
+        <p className="text-sm text-rose-400 mb-6">Login as Mrbi or Nilaaa 💞</p>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Welcome Back</CardTitle>
-            <CardDescription>Sign in to your account to continue</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                />
-              </div>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter name"
+            className="w-full px-4 py-2 border border-pink-200 rounded-lg focus:ring-2 focus:ring-rose-400 outline-none"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+            className="w-full px-4 py-2 border border-pink-200 rounded-lg focus:ring-2 focus:ring-rose-400 outline-none"
+            required
+          />
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                />
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                <LogIn className="w-4 h-4 mr-2" />
-                {loading ? 'Signing in...' : 'Sign In'}
-              </Button>
-
-              <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                Don't have an account?{' '}
-                <Link to="/register" className="text-blue-500 hover:underline">
-                  Sign up
-                </Link>
-              </p>
-            </form>
-          </CardContent>
-        </Card>
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-pink-300 to-blue-300 text-rose-700 drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] py-2 rounded-xl hover:scale-[1.03] transition-transform font-medium shadow-md"
+          >
+            Login 💕
+          </button>
+        </form>
       </motion.div>
     </div>
   );

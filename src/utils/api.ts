@@ -1,13 +1,6 @@
-// ✅ sheetApiClient.ts – Final version (no backend needed)
-// const SCRIPT_URL =
-//   'https://script.google.com/macros/s/AKfycbxr4TIUZUVXn-SY8QJZivrrTmDoqrqR_ghOOTVgCnK9gqE8X_aCFEFowQIWR1DNgL-z/exec';
+const API_BASE_URL =
+  'https://script.google.com/macros/s/AKfycbzNpkYLoLmefikGbDAXplJQAIfRd-nexf3ZU_PGrItyh_XYrRLldrqiyW2v5jwhU-6c/exec';
 
-// // Go through a public proxy to add CORS headers automatically
-// const API_BASE_URL = 'https://corsproxy.io/?' + encodeURIComponent(SCRIPT_URL);
-
-const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxIbDm0QAHMuLR5zuKQz_tsQnrumnTnne5H8yhJkCKxys1hBe739EwI1YO1hX5bPnci/exec";
-
-// Shared request helper
 async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: any) {
   let url = API_BASE_URL;
   let options: RequestInit = { method };
@@ -20,7 +13,6 @@ async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: an
     }
     url = `${API_BASE_URL}?${params.toString()}`;
   } else {
-    // Use text/plain to avoid preflight OPTIONS (Apps Script limitation)
     options.headers = { 'Content-Type': 'text/plain' };
     options.body = JSON.stringify({ action, ...body });
   }
@@ -39,7 +31,6 @@ async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: an
   return data;
 }
 
-/* -------------------- AUTH API -------------------- */
 export const authAPI = {
   async login(email: string, password: string) {
     const students = await request('getStudents');
@@ -47,16 +38,13 @@ export const authAPI = {
       (s: any) => s.Email === email && s.Password === password
     );
     if (!user) throw new Error('Invalid email or password');
-
     localStorage.setItem('user', JSON.stringify(user));
     return user;
   },
 
-
   async register(data: any) {
-    // You’ll need a Google Apps Script handler for `addStudent`
     const response = await request('addStudent', 'POST', data);
-    localStorage.setItem('user', JSON.stringify(response));
+    localStorage.setItem('user', JSON.stringify(response.user));
     return response;
   },
 
@@ -65,31 +53,38 @@ export const authAPI = {
   },
 };
 
-
-/* -------------------- PROFILE API -------------------- */
 export const profileAPI = {
   async get() {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (!user) throw new Error('Not logged in');
-    return user;
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) throw new Error('Not logged in');
+    const name = JSON.parse(JSON.stringify(currentUser));
+    const response = await request('getProfile', 'GET', { name });
+    return response.profile || null;
   },
-  async update() {
-    throw new Error('Profile update not implemented in Sheets backend.');
+
+  async update(data: {
+    name: string;
+    partnerName: string;
+    gender: string;
+    dob: string;
+    height_cm: number;
+    weight_kg: number;
+  }) {
+    const response = await request('addProfile', 'POST', data);
+    return response;
   },
 };
 
-/* -------------------- WATER API -------------------- */
 export const waterAPI = {
   async log(data: { date: string; glasses: number; target_ml?: number; notes?: string; registrationNo?: string }) {
     return request('addWater', 'POST', data);
   },
   async getToday(date?: string) {
-    const today = date || new Date().toLocaleDateString('en-GB').replace(/\//g, '-'); // dd-mm-yyyy
+    const today = date || new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
     return request('getTodayWater', 'GET', { date: today });
   },
 };
 
-/* -------------------- EXAMS API -------------------- */
 export const examsAPI = {
   async list() {
     return request('listExams', 'GET');
@@ -102,7 +97,15 @@ export const examsAPI = {
   },
 };
 
-/* -------------------- PUSH API -------------------- */
+export const periodAPI = {
+  async get() {
+    return request('getPeriodData', 'GET');
+  },
+  async upsert(data: { last_period_date: string; cycle_length: number }) {
+    return request('updatePeriodData', 'POST', data);
+  },
+};
+
 export const pushAPI = {
   async subscribe(subscription: PushSubscription) {
     const keys = subscription.toJSON().keys || {};

@@ -31,12 +31,12 @@ export function PeriodTracker() {
       setProfileGender(profile?.gender || null);
 
       if (periodData) {
-        setLastPeriodDate(periodData.last_period_date || '');
-        setCycleLength(periodData.cycle_length || 28);
+        setLastPeriodDate(periodData.Last_Period_Date || '');
+        setCycleLength(Number(periodData.Cycle_Length) || 28);
       }
     } catch (error) {
       console.error('Failed to load period data:', error);
-      toast.error('Failed to load period data');
+      toast.error('Failed to load period data 😢');
     } finally {
       setLoading(false);
     }
@@ -44,20 +44,22 @@ export function PeriodTracker() {
 
   const handleSave = async () => {
     if (!lastPeriodDate) {
-      toast.error('Please enter your last period date');
+      toast.error('Please enter your last period date 💕');
       return;
     }
 
     setSaving(true);
     try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
       await periodAPI.upsert({
+        name: user.Name || user.name || '',
         last_period_date: lastPeriodDate,
         cycle_length: cycleLength,
       });
-      toast.success('Period data saved successfully!');
+      toast.success('Saved perfectly 💖 Take care, okay?');
     } catch (error) {
       console.error('Failed to save period data:', error);
-      toast.error('Failed to save period data');
+      toast.error('Could not save data 😔');
     } finally {
       setSaving(false);
     }
@@ -65,36 +67,36 @@ export function PeriodTracker() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-rose-50 to-red-100">
+        <div className="animate-pulse text-4xl">💞</div>
       </div>
     );
   }
 
   if (!profileGender || profileGender !== 'female') {
     return (
-      <div className="min-h-screen bg-background pb-24 px-4">
-        <div className="max-w-2xl mx-auto pt-6">
-          <div className="flex items-center gap-4 mb-6">
-            <button
-              onClick={() => navigate('/')}
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
-            >
-              <ArrowLeft size={24} />
-            </button>
-            <h1>Period Tracker</h1>
-          </div>
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-red-100 pb-24 px-4">
+        <div className="max-w-2xl mx-auto pt-6 text-center">
+          <button
+            onClick={() => navigate('/')}
+            className="p-2 hover:bg-pink-200/60 rounded-lg transition-colors mb-4"
+          >
+            <ArrowLeft size={24} className="text-rose-500" />
+          </button>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-card rounded-2xl p-8 shadow-sm border border-border text-center"
+            className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-pink-200"
           >
-            <Heart className="mx-auto mb-4 text-muted-foreground" size={48} />
-            <h2 className="mb-2">Period Tracker</h2>
-            <p className="text-muted-foreground">
-              This feature is available for female users. Please update your profile to access it.
+            <Heart className="mx-auto mb-4 text-rose-400" size={48} />
+            <h2 className="text-xl text-rose-600 mb-2 font-semibold">
+              Period Tracker 💖
+            </h2>
+            <p className="text-rose-400 text-sm mb-4">
+              This feature is only for female profiles.
+              Update your profile if you want to access this section 🌸
             </p>
-            <Button onClick={() => navigate('/profile')} className="mt-6">
+            <Button onClick={() => navigate('/profile')} className="bg-gradient-to-r from-pink-400 to-rose-400 text-red-500 hover:scale-105">
               Go to Profile
             </Button>
           </motion.div>
@@ -107,35 +109,35 @@ export function PeriodTracker() {
 
   const getPhaseInfo = () => {
     if (!phaseInfo) return null;
-    
+
     switch (phaseInfo.phase) {
       case 'period':
         return {
-          color: 'from-red-500 to-pink-500',
-          icon: '🩸',
-          title: 'Period Phase',
-          message: 'Take care of yourself. Remember to carry essentials.',
+          color: 'from-red-400 to-pink-400',
+          emoji: '🩸',
+          title: 'Period Time 💕',
+          message: 'Rest well and stay hydrated sweetu 💦 Take it easy 💖',
         };
       case 'ovulation':
         return {
-          color: 'from-green-500 to-teal-500',
-          icon: '🌸',
-          title: 'Ovulation Phase',
-          message: 'You might feel more energetic during this time.',
+          color: 'from-green-400 to-teal-400',
+          emoji: '🌸',
+          title: 'Ovulation Phase 🌼',
+          message: 'You’ll feel more energetic — perfect time for light walks 🌞',
         };
       case 'upcoming':
         return {
-          color: 'from-orange-500 to-red-500',
-          icon: '⚠️',
+          color: 'from-orange-400 to-red-400',
+          emoji: '⚠️',
           title: 'Period Coming Soon',
-          message: `Your period is expected in ${phaseInfo.daysUntilNext} days. Be prepared!`,
+          message: `Your period might start in ${phaseInfo.daysUntilNext} days — get ready 💕`,
         };
       default:
         return {
-          color: 'from-blue-500 to-purple-500',
-          icon: '✨',
-          title: 'Safe Phase',
-          message: 'Regular phase of your cycle.',
+          color: 'from-blue-400 to-purple-400',
+          emoji: '✨',
+          title: 'Normal Days 🌙',
+          message: 'Relax, eat well, and keep smiling 😚',
         };
     }
   };
@@ -143,42 +145,75 @@ export function PeriodTracker() {
   const phase = getPhaseInfo();
 
   return (
-    <div className="min-h-screen bg-background pb-24 px-4">
-      <div className="max-w-2xl mx-auto pt-6">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-red-100 px-4 pb-24 relative overflow-hidden">
+      {/* Floating hearts background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(12)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-pink-300 opacity-40"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            animate={{
+              y: [null, -60],
+              opacity: [0.3, 0.9, 0],
+            }}
+            transition={{
+              duration: 10 + Math.random() * 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          >
+            💞
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="max-w-2xl mx-auto pt-6 relative z-10">
+        {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <button
             onClick={() => navigate('/')}
-            className="p-2 hover:bg-accent rounded-lg transition-colors"
+            className="p-2 hover:bg-pink-200/60 rounded-lg transition-colors"
           >
-            <ArrowLeft size={24} />
+            <ArrowLeft size={24} className="text-rose-500" />
           </button>
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-pink-500 to-red-500 p-3 rounded-2xl">
+            <div className="bg-gradient-to-br from-pink-400 to-rose-400 p-3 rounded-2xl shadow-md">
               <Calendar className="text-white" size={24} />
             </div>
-            <h1>Period Tracker</h1>
+            <h1 className="text-xl font-semibold text-rose-600">
+              Period Tracker 💗
+            </h1>
           </div>
         </div>
 
+        {/* Input form */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-card rounded-2xl p-6 shadow-sm border border-border mb-6"
+          className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-pink-200 mb-6"
         >
-          <h3 className="mb-4">Cycle Information</h3>
+          <h3 className="text-rose-600 mb-4 font-medium">Cycle Information 🌷</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="lastPeriod">Last Period Start Date</Label>
+              <Label htmlFor="lastPeriod" className="text-rose-500">
+                Last Period Start Date
+              </Label>
               <Input
                 id="lastPeriod"
                 type="date"
                 value={lastPeriodDate}
                 onChange={(e) => setLastPeriodDate(e.target.value)}
-                className="mt-2"
+                className="mt-2 border-pink-200 focus:ring-rose-400"
               />
             </div>
             <div>
-              <Label htmlFor="cycleLength">Average Cycle Length (days)</Label>
+              <Label htmlFor="cycleLength" className="text-rose-500">
+                Average Cycle Length (days)
+              </Label>
               <Input
                 id="cycleLength"
                 type="number"
@@ -186,87 +221,52 @@ export function PeriodTracker() {
                 onChange={(e) => setCycleLength(Number(e.target.value))}
                 min="21"
                 max="35"
-                className="mt-2"
+                className="mt-2 border-pink-200 focus:ring-rose-400"
               />
-              <p className="text-sm text-muted-foreground mt-1">
-                Typical cycle length is 28 days
+              <p className="text-xs text-rose-400 mt-1">
+                Typical length is around 28 days
               </p>
             </div>
-            <Button onClick={handleSave} className="w-full gap-2" disabled={saving}>
-              <Save size={20} />
-              {saving ? 'Saving...' : 'Save Cycle Data'}
+            <Button
+              onClick={handleSave}
+              className="w-full gap-2 bg-gradient-to-r from-pink-400 to-red-400 text-white hover:scale-105 transition-transform"
+              disabled={saving}
+            >
+              <Save size={18} />
+              {saving ? 'Saving...' : 'Save Cycle Data 💕'}
             </Button>
           </div>
         </motion.div>
 
-        {phaseInfo && phase && (
-          <>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className={`bg-gradient-to-br ${phase.color} rounded-2xl p-6 shadow-lg text-white mb-6`}
-            >
-              <div className="text-4xl mb-3">{phase.icon}</div>
-              <h2 className="mb-2">{phase.title}</h2>
-              <p className="opacity-90 mb-4">{phase.message}</p>
-              <div className="bg-white/20 rounded-lg p-3 backdrop-blur-sm">
-                <div className="flex justify-between items-center">
-                  <span>Next Period</span>
-                  <span>{formatDate(phaseInfo.nextPeriodDate)}</span>
-                </div>
-                <div className="flex justify-between items-center mt-2">
-                  <span>Days Until</span>
-                  <span>
-                    {phaseInfo.daysUntilNext < 0
-                      ? 'Overdue'
-                      : phaseInfo.daysUntilNext === 0
-                      ? 'Today'
-                      : `${phaseInfo.daysUntilNext} days`}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+        {/* Display current phase */}
+        {phase && phaseInfo && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className={`bg-gradient-to-br ${phase.color} text-white rounded-2xl p-6 shadow-lg mb-6`}
+          >
+            <div className="text-4xl mb-3">{phase.emoji}</div>
+            <h2 className="mb-1 font-semibold">{phase.title}</h2>
+            <p className="opacity-90 mb-4">{phase.message}</p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-card rounded-2xl p-6 shadow-sm border border-border"
-            >
-              <h3 className="mb-4">Cycle Phases</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-950/20 rounded-lg">
-                  <div className="text-2xl">🩸</div>
-                  <div className="flex-1">
-                    <div className="text-sm">Menstrual Phase</div>
-                    <div className="text-xs text-muted-foreground">Days 1-5</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                  <div className="text-2xl">💙</div>
-                  <div className="flex-1">
-                    <div className="text-sm">Follicular Phase</div>
-                    <div className="text-xs text-muted-foreground">Days 6-13</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                  <div className="text-2xl">🌸</div>
-                  <div className="flex-1">
-                    <div className="text-sm">Ovulation Phase</div>
-                    <div className="text-xs text-muted-foreground">Days 14-16</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-950/20 rounded-lg">
-                  <div className="text-2xl">🌙</div>
-                  <div className="flex-1">
-                    <div className="text-sm">Luteal Phase</div>
-                    <div className="text-xs text-muted-foreground">Days 17-28</div>
-                  </div>
-                </div>
+            <div className="bg-white/20 rounded-lg p-3 backdrop-blur-sm">
+              <div className="flex justify-between items-center">
+                <span>Next Period</span>
+                <span>{formatDate(phaseInfo.nextPeriodDate)}</span>
               </div>
-            </motion.div>
-          </>
+              <div className="flex justify-between items-center mt-2">
+                <span>Days Until</span>
+                <span>
+                  {phaseInfo.daysUntilNext < 0
+                    ? 'Overdue 💧'
+                    : phaseInfo.daysUntilNext === 0
+                      ? 'Today 💕'
+                      : `${phaseInfo.daysUntilNext} days`}
+                </span>
+              </div>
+            </div>
+          </motion.div>
         )}
       </div>
     </div>
