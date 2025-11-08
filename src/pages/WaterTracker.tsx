@@ -8,6 +8,9 @@ import { ProgressRing } from '../components/ProgressRing';
 import { Button } from '../components/ui/button';
 import { toast } from 'sonner';
 
+
+
+
 const GLASS_SIZE_ML = 250;
 
 export function WaterTracker() {
@@ -17,7 +20,7 @@ export function WaterTracker() {
   const [targetMl, setTargetMl] = useState(2000);
   const [waterLogs, setWaterLogs] = useState([]);
 
- 
+
 
 
   const today = new Date().toISOString().split('T')[0];
@@ -30,15 +33,40 @@ export function WaterTracker() {
 
   const loadData = async () => {
     try {
-      // Load profile to get weight for water target calculation
       const profile = await profileAPI.get();
       const target = profile?.weight_kg ? calculateWaterTarget(profile.weight_kg) : 2000;
       setTargetMl(target);
 
-      // Load today's water log
-      const todayLog = await waterAPI.getToday();
-      if (todayLog) {
-        setGlasses(todayLog.glasses || 0);
+      const todayLogs = await waterAPI.getToday(); // this returns an array
+      if (Array.isArray(todayLogs) && todayLogs.length > 0) {
+        // Map properly: sum up total glasses for today
+        const totalGlasses = todayLogs.reduce((sum, log) => sum + Number(log.Glasses || 0), 0);
+        setGlasses(totalGlasses);
+        setWaterLogs(
+          todayLogs.map((entry) => {
+            let rawDate = entry["Date (DD-MM-YYYY)"];
+            let parsedDate;
+
+            // Convert "08-11-2025" → "2025-11-08"
+            if (typeof rawDate === "string" && rawDate.includes("-") && rawDate.length === 10) {
+              const [d, m, y] = rawDate.split("-");
+              parsedDate = `${y}-${m}-${d}`;
+            } else {
+              // Already ISO or Date object
+              parsedDate = new Date(rawDate).toISOString().split("T")[0];
+            }
+
+            return {
+              date: parsedDate,
+              glasses: Number(entry.Glasses || 0),
+              targetMl: Number(entry.Target_ml || 2000),
+            };
+          })
+        );
+
+      } else {
+        setGlasses(0);
+        setWaterLogs([]);
       }
     } catch (error) {
       console.error('Failed to load water data:', error);
@@ -47,6 +75,7 @@ export function WaterTracker() {
       setLoading(false);
     }
   };
+
 
   const updateWaterLog = async (newGlasses: number) => {
     try {

@@ -5,7 +5,7 @@
 // // Go through a public proxy to add CORS headers automatically
 // const API_BASE_URL = 'https://corsproxy.io/?' + encodeURIComponent(SCRIPT_URL);
 
-const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxd1FXLKFTmmGmHFJt0IoVxAi8IOe4PuS3vUppTm0rbLr4KpKULvsgN-gKb1pLF060N/exec";
+const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxIbDm0QAHMuLR5zuKQz_tsQnrumnTnne5H8yhJkCKxys1hBe739EwI1YO1hX5bPnci/exec";
 
 // Shared request helper
 async function request(action: string, method: 'GET' | 'POST' = 'GET', body?: any) {

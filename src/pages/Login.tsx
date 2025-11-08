@@ -23,7 +23,7 @@ export default function Login() {
     try {
       await login(email, password);
       toast.success('Welcome back!');
-      navigate('/water');
+      navigate('/profile');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Login failed');
     } finally {
