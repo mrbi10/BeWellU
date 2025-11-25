@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -29,11 +29,11 @@ export default function App() {
       <Router>
         <div className="h-screen w-full overflow-y-auto bg-white">
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/BeWellU/login" element={<Login />} />
+            <Route path="/BeWellU/register" element={<Register />} />
 
             <Route
-              path="/home"
+              path="/BeWellU/home"
               element={
                 <ProtectedRoute>
                   <Home />
@@ -42,7 +42,7 @@ export default function App() {
             />
 
             <Route
-              path="/profile"
+              path="/BeWellU/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
@@ -51,7 +51,7 @@ export default function App() {
             />
 
             <Route
-              path="/water"
+              path="/BeWellU/water"
               element={
                 <ProtectedRoute>
                   <WaterTracker />
@@ -60,7 +60,7 @@ export default function App() {
             />
 
             <Route
-              path="/period"
+              path="/BeWellU/period"
               element={
                 <ProtectedRoute>
                   <PeriodTracker />
@@ -69,7 +69,7 @@ export default function App() {
             />
 
             <Route
-              path="/study"
+              path="/BeWellU/study"
               element={
                 <ProtectedRoute>
                   <StudyPlanner />
@@ -78,7 +78,7 @@ export default function App() {
             />
 
             <Route
-              path="/motivation"
+              path="/BeWellU/motivation"
               element={
                 <ProtectedRoute>
                   <Motivation />
@@ -87,7 +87,7 @@ export default function App() {
             />
 
             <Route
-              path="/settings"
+              path="/BeWellU/settings"
               element={
                 <ProtectedRoute>
                   <Settings />
@@ -96,10 +96,10 @@ export default function App() {
             />
 
             {/* DEFAULT → LOGIN */}
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/" element={<Navigate to="/BeWellU/login" replace />} />
 
             {/* WILDCARD */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/BeWellU/login" replace />} />
           </Routes>
 
           <Navbar />

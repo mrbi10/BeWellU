@@ -192,7 +192,7 @@ export default function Register() {
 
               <p className="text-center text-sm text-gray-600 dark:text-gray-400">
                 Already have an account?{' '}
-                <Link to="/login" className="text-blue-500 hover:underline">
+                <Link to="/BeWellU/login" className="text-blue-500 hover:underline">
                   Sign in
                 </Link>
               </p>

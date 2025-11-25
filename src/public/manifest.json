@@ -2,7 +2,7 @@
   "name": "Wellness & Study Companion",
   "short_name": "Wellness App",
   "description": "Your personalized wellness and study companion",
-  "start_url": "/BeWellU/#/home",
+  "start_url": "/BeWellU/home",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",
@@ -21,21 +21,35 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["health", "education", "productivity"],
+  "categories": [
+    "health",
+    "education",
+    "productivity"
+  ],
   "shortcuts": [
     {
       "name": "Water Tracker",
       "short_name": "Water",
       "description": "Track your daily water intake",
-      "url": "/BeWellU/#/water",
-      "icons": [{ "src": "/BeWellU/icon-192.png", "sizes": "192x192" }]
+      "url": "/BeWellU/water",
+      "icons": [
+        {
+          "src": "/BeWellU/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Study Planner",
       "short_name": "Study",
       "description": "Manage your exams and study schedule",
-      "url": "/BeWellU/#/study",
-      "icons": [{ "src": "/BeWellU/icon-192.png", "sizes": "192x192" }]
+      "url": "/BeWellU/study",
+      "icons": [
+        {
+          "src": "/BeWellU/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
