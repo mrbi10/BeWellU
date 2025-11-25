@@ -27,7 +27,7 @@ export default function Login() {
       };
       localStorage.setItem('user', JSON.stringify(userData));
       toast.success(`Welcome ${user.name} 💖`);
-      navigate('/BeWellU/home');
+      navigate('/home');
       window.location.reload();
     } else {
       toast.error('Invalid name or password 😢');

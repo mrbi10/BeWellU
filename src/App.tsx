@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Navbar } from './components/Navbar';
 import { InstallPrompt } from './components/InstallPrompt';
 import { NotificationBanner } from './components/NotificationBanner';
+
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { Home } from './pages/Home';
@@ -15,6 +16,7 @@ import { PeriodTracker } from './pages/PeriodTracker';
 import { StudyPlanner } from './pages/StudyPlanner';
 import { Motivation } from './pages/Motivation';
 import { Settings } from './pages/Settings';
+
 import { registerServiceWorker } from './utils/pwa';
 
 export default function App() {
@@ -27,11 +29,11 @@ export default function App() {
       <Router>
         <div className="h-screen w-full overflow-y-auto bg-white">
           <Routes>
-            <Route path="/BeWellU/login" element={<Login />} />
-            <Route path="/BeWellU/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
             <Route
-              path="/BeWellU/home"
+              path="/home"
               element={
                 <ProtectedRoute>
                   <Home />
@@ -40,7 +42,7 @@ export default function App() {
             />
 
             <Route
-              path="/BeWellU/profile"
+              path="/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
@@ -49,7 +51,7 @@ export default function App() {
             />
 
             <Route
-              path="/BeWellU/water"
+              path="/water"
               element={
                 <ProtectedRoute>
                   <WaterTracker />
@@ -58,7 +60,7 @@ export default function App() {
             />
 
             <Route
-              path="/BeWellU/period"
+              path="/period"
               element={
                 <ProtectedRoute>
                   <PeriodTracker />
@@ -67,7 +69,7 @@ export default function App() {
             />
 
             <Route
-              path="/BeWellU/study"
+              path="/study"
               element={
                 <ProtectedRoute>
                   <StudyPlanner />
@@ -76,7 +78,7 @@ export default function App() {
             />
 
             <Route
-              path="/BeWellU/motivation"
+              path="/motivation"
               element={
                 <ProtectedRoute>
                   <Motivation />
@@ -85,7 +87,7 @@ export default function App() {
             />
 
             <Route
-              path="/BeWellU/settings"
+              path="/settings"
               element={
                 <ProtectedRoute>
                   <Settings />
@@ -93,14 +95,11 @@ export default function App() {
               }
             />
 
-            {/* MAIN LANDING ROUTE */}
-            <Route
-              path="/BeWellU/"
-              element={<Navigate to="/BeWellU/login" replace />}
-            />
+            {/* DEFAULT → LOGIN */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
 
             {/* WILDCARD */}
-            <Route path="*" element={<Navigate to="/BeWellU/login" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
 
           <Navbar />

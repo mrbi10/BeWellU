@@ -13,7 +13,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/BeWellU/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
