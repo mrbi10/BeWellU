@@ -137,7 +137,7 @@ export default function Register() {
 
                 <div className="space-y-2">
                   <Label htmlFor="gender">Gender</Label>
-                  <Select value={formData.gender} onValueChange={(value) => handleChange('gender', value)} disabled={loading}>
+                  <Select value={formData.gender} onValueChange={(value: string) => handleChange('gender', value)} disabled={loading}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select gender" />
                     </SelectTrigger>
@@ -192,7 +192,7 @@ export default function Register() {
 
               <p className="text-center text-sm text-gray-600 dark:text-gray-400">
                 Already have an account?{' '}
-                <Link to="/login" className="text-blue-500 hover:underline">
+                <Link to="/BeWellU/login" className="text-blue-500 hover:underline">
                   Sign in
                 </Link>
               </p>

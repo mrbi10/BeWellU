@@ -17,7 +17,6 @@ export function QuoteWidget({ text, author }: QuoteWidgetProps) {
       <p className="mb-4 text-lg italic leading-relaxed">
         "{text}"
       </p>
-      <p className="opacity-90">— {author}</p>
     </motion.div>
   );
 }

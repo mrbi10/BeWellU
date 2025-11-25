@@ -19,75 +19,90 @@ import { registerServiceWorker } from './utils/pwa';
 
 export default function App() {
   useEffect(() => {
-    // Register service worker for PWA functionality
     registerServiceWorker();
   }, []);
 
   return (
     <AuthProvider>
       <Router>
-    <div className="h-screen w-full overflow-y-auto bg-white">
+        <div className="h-screen w-full overflow-y-auto bg-white">
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/BeWellU/login" element={<Login />} />
+            <Route path="/BeWellU/register" element={<Register />} />
+
             <Route
-              path="/"
+              path="/BeWellU/home"
               element={
                 <ProtectedRoute>
                   <Home />
                 </ProtectedRoute>
               }
             />
+
             <Route
-              path="/profile"
+              path="/BeWellU/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               }
             />
+
             <Route
-              path="/water"
+              path="/BeWellU/water"
               element={
                 <ProtectedRoute>
                   <WaterTracker />
                 </ProtectedRoute>
               }
             />
+
             <Route
-              path="/period"
+              path="/BeWellU/period"
               element={
                 <ProtectedRoute>
                   <PeriodTracker />
                 </ProtectedRoute>
               }
             />
+
             <Route
-              path="/study"
+              path="/BeWellU/study"
               element={
                 <ProtectedRoute>
                   <StudyPlanner />
                 </ProtectedRoute>
               }
             />
+
             <Route
-              path="/motivation"
+              path="/BeWellU/motivation"
               element={
                 <ProtectedRoute>
                   <Motivation />
                 </ProtectedRoute>
               }
             />
+
             <Route
-              path="/settings"
+              path="/BeWellU/settings"
               element={
                 <ProtectedRoute>
                   <Settings />
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/" replace />} />
+
+            {/* MAIN LANDING ROUTE */}
+            <Route
+              path="/BeWellU/"
+              element={<Navigate to="/BeWellU/login" replace />}
+            />
+
+            {/* WILDCARD */}
+            <Route path="*" element={<Navigate to="/BeWellU/login" replace />} />
           </Routes>
+
           <Navbar />
           <InstallPrompt />
           <NotificationBanner />

@@ -28,14 +28,14 @@ export function Navbar() {
   }, []);
 
   const navItems = [
-    { path: '/', icon: Home, label: 'Home', color: 'from-pink-400 to-rose-400' },
-    { path: '/water', icon: Droplet, label: 'Water', color: 'from-blue-400 to-cyan-400' },
+    { path: '/BeWellU/home', icon: Home, label: 'Home', color: 'from-pink-400 to-rose-400' },
+    { path: '/BeWellU/water', icon: Droplet, label: 'Water', color: 'from-blue-400 to-cyan-400' },
     ...(isFemale
-      ? [{ path: '/period', icon: Calendar, label: 'Period', color: 'from-red-400 to-pink-400' }]
+      ? [{ path: '/BeWellU/period', icon: Calendar, label: 'Period', color: 'from-red-400 to-pink-400' }]
       : []),
-    { path: '/study', icon: BookOpen, label: 'Study', color: 'from-violet-400 to-purple-400' },
-    { path: '/motivation', icon: Sparkles, label: 'Quotes', color: 'from-yellow-400 to-pink-400' },
-    { path: '/profile', icon: User, label: 'Profile', color: 'from-teal-400 to-green-400' },
+    { path: '/BeWellU/study', icon: BookOpen, label: 'Study', color: 'from-violet-400 to-purple-400' },
+    { path: '/BeWellU/motivation', icon: Sparkles, label: 'Quotes', color: 'from-yellow-400 to-pink-400' },
+    { path: '/BeWellU/profile', icon: User, label: 'Profile', color: 'from-teal-400 to-green-400' },
   ];
 
   return (

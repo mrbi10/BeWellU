@@ -12,7 +12,7 @@ export default function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validUsers = {
+    const validUsers: Record<string, { name: string; password: string }> = {
       mrbi: { name: 'Mrbi', password: 'mrbi@123' },
       nilaaaa: { name: 'Nilaaaa', password: 'nilaaaa@123' },
     };
@@ -27,7 +27,7 @@ export default function Login() {
       };
       localStorage.setItem('user', JSON.stringify(userData));
       toast.success(`Welcome ${user.name} 💖`);
-      navigate('/home');
+      navigate('/BeWellU/home');
       window.location.reload();
     } else {
       toast.error('Invalid name or password 😢');

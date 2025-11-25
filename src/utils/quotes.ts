@@ -1,68 +1,71 @@
 export const motivationalQuotes = [
   {
-    text: "The secret of getting ahead is getting started.",
-    author: "Mark Twain"
+    text: "Chinna step eduthaale periya journey start aagum da en chola.",
+    author: " "
   },
   {
-    text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-    author: "Winston Churchill"
+    text: "Success nu oru end illa ma, fail anaalum nikkaama munneranum da en papu.",
+    author: " "
   },
   {
-    text: "Believe you can and you're halfway there.",
-    author: "Theodore Roosevelt"
+    text: "Nee mudiyum nu nambina, adhe half victory da en kutty.",
+    author: " "
   },
   {
-    text: "Don't watch the clock; do what it does. Keep going.",
-    author: "Sam Levenson"
+    text: "Time pathi yosikadha baby… neenga work pannunga, namma growth automatic varum.",
+    author: " "
   },
   {
-    text: "The only way to do great work is to love what you do.",
-    author: "Steve Jobs"
+    text: "Unakku pidicha vishayathula heart la irundhu pannuna, adhe thaan periya work da bujjy.",
+    author: " "
   },
   {
-    text: "Your health is an investment, not an expense.",
-    author: "Anonymous"
+    text: "Unga health ah paathukardhu expense illa ma… investment da en ammu.",
+    author: " "
   },
   {
-    text: "Take care of your body. It's the only place you have to live.",
-    author: "Jim Rohn"
+    text: "Intha body thaan namma veedu ma… adha nalla paathukko en chinnu.",
+    author: " "
   },
   {
-    text: "Small daily improvements are the key to staggering long-term results.",
-    author: "Anonymous"
+    text: "Daily konjam konjama improve pannina, nalaiku nee shock aagiruvaa da kutty.",
+    author: " "
   },
   {
-    text: "You don't have to be great to start, but you have to start to be great.",
-    author: "Zig Ziglar"
+    text: "Start panna thaan venum ma, great aah irukanum nu avasiyam illa en papu.",
+    author: " "
   },
   {
-    text: "The future depends on what you do today.",
-    author: "Mahatma Gandhi"
+    text: "Namma future ellam inikku nama seyyra actions la iruku da en chola.",
+    author: " "
   },
   {
-    text: "Study hard what interests you the most in the most undisciplined, irreverent and original manner possible.",
-    author: "Richard Feynman"
+    text: "Unakku pidicha padippu ah love pannitu padicha, athu thaan real genius da baby.",
+    author: " "
   },
   {
-    text: "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
-    author: "Malcolm X"
+    text: "Padikkara payyan/ponnu thaan nalaiku namma world ah shape pannuva… so ready aagiko en kutty.",
+    author: " "
   },
   {
-    text: "Hydration is the foundation of health.",
-    author: "Anonymous"
+    text: "Thanni kudichaale health glow aagum da bujjy… hydration super important.",
+    author: " "
   },
   {
-    text: "Your body hears everything your mind says. Stay positive.",
-    author: "Naomi Judd"
+    text: "Un mind sollra ellathayum body kekkum ma… positive aa irundha life um positive aagum.",
+    author: " "
   },
   {
-    text: "The groundwork of all happiness is health.",
-    author: "Leigh Hunt"
+    text: "Health nalla irundha thaan happy aah irukka mudiyum ma… so unnu paathuko my sweet one.",
+    author: " "
   }
 ];
 
 export function getDailyQuote(): { text: string; author: string } {
   const today = new Date();
-  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+  const dayOfYear = Math.floor(
+    (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime())
+      / 1000 / 60 / 60 / 24
+  );
   return motivationalQuotes[dayOfYear % motivationalQuotes.length];
 }

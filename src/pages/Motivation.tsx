@@ -101,7 +101,7 @@ export function Motivation() {
                 <p className="text-sm italic mb-2 text-rose-600">
                   “{quote.text}”
                 </p>
-                <p className="text-xs text-rose-400">— {quote.author}</p>
+                <p className="text-xs text-rose-400">{quote.author}</p>
               </motion.div>
             ))}
           </div>

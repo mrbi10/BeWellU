@@ -25,8 +25,9 @@ export function Home() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
+    console.log('Stored User:', storedUser);
     if (!storedUser) {
-      navigate('/login');
+      navigate('/BeWellU/login');
       return;
     }
 
@@ -102,7 +103,7 @@ export function Home() {
             It’ll help me take care of your hydration and study tracking 💦📚
           </p>
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/BeWellU/profile')}
             className="bg-gradient-to-r from-pink-400 to-blue-400 text-blue-500 px-6 py-3 rounded-xl shadow-md hover:scale-105 transition-transform"
           >
             Create Profile 💞
@@ -132,7 +133,9 @@ export function Home() {
     : null;
 
   const dailyQuote = getDailyQuote();
-  const currentUser = localStorage.getItem('currentUser');
+  const storedUserObj = JSON.parse(localStorage.getItem('user') || '{}');
+  const currentUser = storedUserObj.name || storedUserObj.username || null;
+  console.log('Current User:', currentUser);
 
   const upcomingExams = exams
     .filter(exam => getDaysUntil(exam.examDate) >= 0)
@@ -193,7 +196,7 @@ export function Home() {
             </p>
           </div>
           <button
-            onClick={() => navigate('/settings')}
+            onClick={() => navigate('/BeWellU/settings')}
             className="p-2 hover:bg-pink-200/60 rounded-lg transition-colors"
           >
             <SettingsIcon size={24} className="text-rose-500" />
@@ -341,7 +344,7 @@ export function Home() {
           className="grid grid-cols-2 gap-4"
         >
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/BeWellU/profile')}
             className="bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-md border border-pink-200 hover:border-rose-400 transition-colors text-left"
           >
             <User className="mb-2 text-rose-500" size={24} />
