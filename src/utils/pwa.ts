@@ -34,3 +34,17 @@ export function showNotification(title: string, options?: NotificationOptions) {
     });
   }
 }
+
+export function isInstalled(): boolean {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         (window.navigator as any).standalone === true;
+}
+
+
+export function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    return Notification.requestPermission();
+  }
+  return Promise.resolve(Notification.permission);
+}
+
