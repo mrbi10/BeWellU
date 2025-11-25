@@ -2,7 +2,7 @@
   "name": "Wellness & Study Companion",
   "short_name": "Wellness App",
   "description": "Your personalized wellness and study companion",
-  "start_url": "/BeWellU/home",
+  "start_url": "/BeWellU/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",

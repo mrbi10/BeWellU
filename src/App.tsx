@@ -96,7 +96,8 @@ export default function App() {
             />
 
             {/* DEFAULT → LOGIN */}
-            <Route path="/" element={<Navigate to="/BeWellU/login" replace />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/BeWellU/" element={<Login />} />
 
             {/* WILDCARD */}
             <Route path="*" element={<Navigate to="/BeWellU/login" replace />} />
