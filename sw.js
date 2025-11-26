@@ -1,8 +1,8 @@
 const CACHE_NAME = 'wellness-app-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  '/BeWellU/',
+  '/BeWellU/index.html',
+  '/BeWellU/manifest.json'
 ];
 
 // Install service worker
