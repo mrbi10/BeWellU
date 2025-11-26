@@ -22,7 +22,7 @@ export function Settings() {
       <div className="max-w-2xl mx-auto pt-6">
         <div className="flex items-center gap-4 mb-6">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/BeWellU/home')}
             className="p-2 hover:bg-accent rounded-lg transition-colors"
           >
             <ArrowLeft size={24} />
@@ -43,7 +43,7 @@ export function Settings() {
           <h3 className="mb-4">Appearance</h3>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {theme === 'dark' ? (
+              {theme === 'light' ? (
                 <Moon className="text-muted-foreground" size={20} />
               ) : (
                 <Sun className="text-muted-foreground" size={20} />
