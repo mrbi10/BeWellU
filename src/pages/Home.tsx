@@ -196,7 +196,7 @@ export function Home() {
             </p>
           </div>
           <button
-            onClick={() => navigate('/settings')}
+            onClick={() => navigate('/BeWellU/settings')}
             className="p-2 hover:bg-pink-200/60 rounded-lg transition-colors"
           >
             <SettingsIcon size={24} className="text-rose-500" />
