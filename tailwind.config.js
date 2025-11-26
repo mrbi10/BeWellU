@@ -1,6 +1,6 @@
 export default {
   content: [
-    "./index.html",
+    "./BeWellU/index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: { extend: {} },
